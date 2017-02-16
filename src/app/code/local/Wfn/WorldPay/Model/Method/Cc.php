@@ -27,7 +27,10 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
     {
         $order = $payment->getOrder();
         $billingAddress = $order->getBillingAddress();
-
+        $orderDescription = [];
+        foreach ($order->getAllVisibleItems() as $item) {
+            $orderDescription[] = $item->getQtyOrdered() . ' ' . $item->getName();
+        }
         $request = new Wfn_WorldPay_Api_PaymentService_Order_Request(
             $this->getConfigData('api_url'),
             $this->getConfigData('api_merchant_code'),
@@ -35,26 +38,19 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
         );
 
         $response = $request
-            ->setOrderNumber($order->getIncrementId())
+            ->setOrderCode($order->getIncrementId().time())
+            ->setDescription(implode(',', $orderDescription))
             ->setAmount(1)
-            ->setCcType($payment->getCcType())
-            ->setCcNumber($payment->getCcNumber())
-            ->setCcExpiryMonth($payment->getCcExpMonth())
-            ->setCcExpiryYear($payment->getCcExpYear())
-            ->setCcCvc($payment->getCcCid())
-            ->setCustomerEmail($order->getCustomerEmail())
-            ->setBillingName($billingAddress->getFirstname() . ' ' . $billingAddress->getLastname())
-            ->setBillingAddress1($billingAddress->getStreet(-1))
-            ->setBillingCity($billingAddress->getCity())
-            ->setBillingState($billingAddress->getRegion())
-            ->setBillingPostalCode($billingAddress->getPostcode())
-            ->setBillingTelephone($billingAddress->getTelephone())
+            ->setCardType($payment->getCcType())
+            ->setCardNumber($payment->getCcNumber())
+            ->setCardExpiryMonth($payment->getCcExpMonth())
+            ->setCardExpiryYear($payment->getCcExpYear())
+            ->setCardCvc($payment->getCcCid())
+            ->setCardHolderName($billingAddress->getFirstname() . ' ' . $billingAddress->getLastname())
             ->setSessionId(Mage::getSingleton('core/session')->getEncryptedSessionId())
-            ->setCustomerIpAddress((isset($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : '')
-            ->setBrowserAcceptHeader((isset($_SERVER['HTTP_ACCEPT'])) ? $_SERVER['HTTP_ACCEPT'] : '')
-            ->setBrowserUserAgentHeader((isset($_SERVER['HTTP_USER_AGENT'])) ? $_SERVER['HTTP_USER_AGENT'] : '')
+            ->setShopperIpAddress((isset($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : '')
             ->send();
-        print_r($response);
+       print_r($response);
         echo $request->toXmlString();
 
         if (false === $response) {
