@@ -9,7 +9,7 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
      *
      * @var array
      */
-    protected static $ccTypes = [
+    protected static $cardTypes = [
         'VI' => 'VISA-SSL',
         'MC' => 'ECMC-SSL',
         'AE' => 'AMEX-SSL',
@@ -21,29 +21,19 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
      *
      * @var string
      */
-    protected $orderNumber;
-    protected $orderDescription = '&amp;nbsp;';
+    protected $orderCode;
+    protected $description;
     protected $amount;
     protected $amountExponent = 2;
     protected $currencyCode = 'US';
-    protected $ccType;
-    protected $ccNumber;
-    protected $ccExpiryMonth;
-    protected $ccExpiryYear;
-    protected $ccCvc;
-    protected $customerEmail;
-    protected $billingName;
-    protected $billingAddress1;
-    protected $billingAddress2 = '';
-    protected $billingCity;
-    protected $billingState;
-    protected $billingPostalCode;
-    protected $billingCountryCode = 'US';
-    protected $billingTelephone;
-    protected $customerIpAddress;
+    protected $cardType;
+    protected $cardNumber;
+    protected $cardExpiryMonth;
+    protected $cardExpiryYear;
+    protected $cardCvc;
+    protected $cardHolderName;
+    protected $shopperIpAddress;
     protected $sessionId;
-    protected $browserAcceptHeader;
-    protected $browserUserAgentHeader;
 
     /**
      * {@inheritdoc}
@@ -52,8 +42,8 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
      */
     public function send()
     {
-        if (!isset(static::$ccTypes[$this->ccType])) {
-            throw new Wfn_WorldPay_Api_Exception("Error: Invalid credit card type {$this->ccType}");
+        if (!isset(static::$cardTypes[$this->cardType])) {
+            throw new Wfn_WorldPay_Api_Exception("Error: Invalid credit card type {$this->cardType}");
         }
         return parent::send();
     }
@@ -63,7 +53,7 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
      */
     public function toXmlString()
     {
-        $ccTypes = static::$ccTypes;
+        $cardTypes = static::$cardTypes;
 
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -71,38 +61,20 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
 "http://dtd.worldpay.com/paymentService_v1.dtd">
 <paymentService version="1.4" merchantCode="{$this->merchantCode}">
     <submit>
-        <order orderCode="{$this->orderNumber}">
-            <description>><![CDATA[{$this->orderDescription}]]></description>
-            <amount currencyCode="{$this->currencyCode}" exponent="{$this->amountExponent}" value="{$this->amount}"/>
-            <paymentDetails>
-                <{$ccTypes[$this->ccType]}>
-                    <cardNumber>{$this->ccNumber}</cardNumber>
-                    <expiryDate><date month="{$this->ccExpiryMonth}" year="{$this->ccExpiryYear}"/></expiryDate>
-                    <cardHolderName><![CDATA[{$this->billingName}]]></cardHolderName>
-                    <cvc>{$this->ccCvc}</cvc>
-                    <cardAddress>
-                        <address>
-                            <address1><![CDATA[{$this->billingAddress1}]]></address1>
-                            <address2><![CDATA[{$this->billingAddress2}]]></address2>
-                            <address3></address3>
-                            <postalCode><![CDATA[{$this->billingPostalCode}]]></postalCode>
-                            <city><![CDATA[{$this->billingCity}]]></city>
-                            <state><![CDATA[{$this->billingState}]]></state>
-                            <countryCode><![CDATA[{$this->billingCountryCode}]]></countryCode>
-                            <telephoneNumber><![CDATA[{$this->billingTelephone}]]></telephoneNumber>
-                        </address>
-                    </cardAddress>
-                </{$ccTypes[$this->ccType]}>
-                <session shopperIPAddress="{$this->customerIpAddress}" id="{$this->sessionId}"/>
+        <order orderCode="{$this->orderCode}">
+            <description><![CDATA[{$this->description}]]></description>
+            <amount value="{$this->amount}" currencyCode="{$this->currencyCode}" exponent="{$this->amountExponent}"/>
+            <paymentDetails action="AUTHORISE">
+                <{$cardTypes[$this->cardType]}>
+                    <cardNumber><![CDATA[{$this->cardNumber}]]></cardNumber>
+                    <expiryDate>
+                        <date month="{$this->cardExpiryMonth}" year="{$this->cardExpiryYear}"/>
+                    </expiryDate>
+                    <cardHolderName><![CDATA[{$this->cardHolderName}]]></cardHolderName>
+                    <cvc><![CDATA[{$this->cardCvc}]]></cvc>
+                </{$cardTypes[$this->cardType]}>
+                <session shopperIPAddress="{$this->shopperIpAddress}" id="{$this->sessionId}"/>
             </paymentDetails>
-            <shopper>
-                <shopperEmailAddress><![CDATA[{$this->customerEmail}]]></shopperEmailAddress>
-                <browser>
-                    <acceptHeader><![CDATA[{$this->browserAcceptHeader}]]></acceptHeader>
-                    <userAgentHeader><![CDATA[{$this->browserUserAgentHeader}]]></userAgentHeader>
-                </browser>
-            </shopper>
-            <statementNarrative></statementNarrative>
         </order>
     </submit>
 </paymentService>
@@ -115,141 +87,69 @@ XML;
      * Getters and setters.
      */
 
-    public function setOrderNumber($orderNumber)
+    public function setOrderCode($orderCode)
     {
-        $this->orderNumber = $orderNumber;
+        $this->orderCode = $orderCode;
         return $this;
     }
 
-    public function setOrderDescription($orderDescription)
+    public function setDescription($description)
     {
-        $this->orderDescription = $orderDescription;
+        $this->description = $description;
         return $this;
     }
 
     public function setAmount($amount)
     {
-        $this->amount = $amount;
+        $this->amount = $amount * 100;
         return $this;
     }
 
-    public function setAmountExponent($amountExponent)
+    public function setCardType($cardType)
     {
-        $this->amountExponent = $amountExponent;
+        $this->cardType = $cardType;
         return $this;
     }
 
-    public function setCurrencyCode($currencyCode)
+    public function setCardNumber($cardNumber)
     {
-        $this->currencyCode = $currencyCode;
+        $this->cardNumber = $cardNumber;
         return $this;
     }
 
-    public function setCcType($ccType)
+    public function setCardExpiryMonth($cardExpiryMonth)
     {
-        $this->ccType = $ccType;
+        $this->cardExpiryMonth = $cardExpiryMonth;
         return $this;
     }
 
-    public function setCcNumber($ccNumber)
+    public function setCardExpiryYear($cardExpiryYear)
     {
-        $this->ccNumber = $ccNumber;
+        $this->cardExpiryYear = $cardExpiryYear;
         return $this;
     }
 
-    public function setCcExpiryMonth($ccExpiryMonth)
+    public function setCardCvc($cardCvc)
     {
-        $this->ccExpiryMonth = $ccExpiryMonth;
+        $this->cardCvc = $cardCvc;
         return $this;
     }
 
-    public function setCcExpiryYear($ccExpiryYear)
+    public function setCardHolderName($cardHolderName)
     {
-        $this->ccExpiryYear = $ccExpiryYear;
+        $this->cardHolderName = $cardHolderName;
         return $this;
     }
 
-    public function setCcCvc($ccCvc)
+    public function setShopperIpAddress($shopperIpAddress)
     {
-        $this->ccCvc = $ccCvc;
-        return $this;
-    }
-
-    public function setCustomerEmail($customerEmail)
-    {
-        $this->customerEmail = $customerEmail;
-        return $this;
-    }
-
-    public function setBillingName($billingName)
-    {
-        $this->billingName = $billingName;
-        return $this;
-    }
-
-    public function setBillingAddress1($billingAddress1)
-    {
-        $this->billingAddress1 = $billingAddress1;
-        return $this;
-    }
-
-    public function setBillingAddress2($billingAddress2)
-    {
-        $this->billingAddress2 = $billingAddress2;
-        return $this;
-    }
-
-    public function setBillingCity($billingCity)
-    {
-        $this->billingCity = $billingCity;
-        return $this;
-    }
-
-    public function setBillingState($billingState)
-    {
-        $this->billingState = $billingState;
-        return $this;
-    }
-
-    public function setBillingPostalCode($billingPostalCode)
-    {
-        $this->billingPostalCode = $billingPostalCode;
-        return $this;
-    }
-
-    public function setBillingCountryCode($billingCountryCode)
-    {
-        $this->billingCountryCode = $billingCountryCode;
-        return $this;
-    }
-
-    public function setBillingTelephone($billingTelephone)
-    {
-        $this->billingTelephone = $billingTelephone;
-        return $this;
-    }
-
-    public function setCustomerIpAddress($customerIpAddress)
-    {
-        $this->customerIpAddress = $customerIpAddress;
+        $this->shopperIpAddress = $shopperIpAddress;
         return $this;
     }
 
     public function setSessionId($sessionId)
     {
         $this->sessionId = $sessionId;
-        return $this;
-    }
-
-    public function setBrowserAcceptHeader($browserAcceptHeader)
-    {
-        $this->browserAcceptHeader = $browserAcceptHeader;
-        return $this;
-    }
-
-    public function setBrowserUserAgentHeader($browserUserAgentHeader)
-    {
-        $this->browserUserAgentHeader = $browserUserAgentHeader;
         return $this;
     }
 }
