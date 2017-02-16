@@ -1,0 +1,14 @@
+{
+    "name": "wfn/magento-module-worldpay",
+    "description": "A credit card payment method that integrates with WorldPay payment gateway",
+    "type": "magento-module",
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    },
+    "extra":{
+        "map":[
+            ["src/app/etc/modules/Wfn_WorldPay.xml", "app/etc/modules/Wfn_WorldPay.xml"],
+            ["src/app/code/local/Wfn/WorldPay/", "app/code/local/Wfn/WorldPay"]
+        ]
+    }
+}
