@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Wfn_WorldPay>
+            <version>1.0.0.0</version>
+        </Wfn_WorldPay>
+    </modules>
+    <global>
+        <helpers>
+            <wfnworldpay>
+                <class>Wfn_WorldPay_Helper</class>
+            </wfnworldpay>
+        </helpers>
+        <models>
+            <wfnworldpay>
+                <class>Wfn_WorldPay_Model</class>
+            </wfnworldpay>
+        </models>
+    </global>
+    <default>
+        <payment>
+            <wfn_worldpay>
+                <active>1</active>
+                <model>wfnworldpay/method_cc</model>
+                <payment_action>authorize</payment_action>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <order_status>processing</order_status>
+                <title>Credit / Debit / Prepaid Cards (WorldPay)</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>US</specificcountry>
+                <cctypes>AE,VI,MC,DI</cctypes>
+                <api_url></api_url>
+                <api_merchant_code></api_merchant_code>
+                <api_password></api_password>
+            </wfn_worldpay>
+        </payment>
+    </default>
+</config>
