@@ -48,9 +48,6 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
             ->setShopperIpAddress((isset($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : '')
             ->send();
 
-        //Mage::log($request->asXml() . "\n\n", null, $this->_code . '.log');
-        //Mage::log(var_export($response, true) . "\n\n", null, $this->_code . '.log');
-
         if (!$response->isSuccess()) {
             Mage::throwException('Gateway Error: ' . $response->getMessage());
         }
