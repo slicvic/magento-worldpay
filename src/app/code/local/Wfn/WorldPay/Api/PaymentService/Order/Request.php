@@ -42,7 +42,7 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
      */
     public function send()
     {
-        if (!isset(static::$cardTypes[$this->cardType])) {
+        if (isset(static::$cardTypes[$this->cardType])) {
             throw new Wfn_WorldPay_Api_Exception('Error: Invalid Credit Card Type ' . $this->cardType);
         }
         $result = parent::send();

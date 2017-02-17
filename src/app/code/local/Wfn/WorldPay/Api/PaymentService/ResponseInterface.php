@@ -5,7 +5,7 @@
 interface Wfn_WorldPay_Api_PaymentService_ResponseInterface
 {
     /**
-     * Whether or not the order was successful.
+     * Whether or not the request was successful.
      *
      * @return bool
      */
