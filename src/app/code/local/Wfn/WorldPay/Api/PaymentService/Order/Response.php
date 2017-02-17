@@ -80,7 +80,5 @@ class Wfn_WorldPay_Api_PaymentService_Order_Response implements Wfn_WorldPay_Api
             $this->message = 'Error code ' . (string) $xml->reply->error['code'];
             return;
         }
-
-        $this->message = 'No Response';
     }
 }
