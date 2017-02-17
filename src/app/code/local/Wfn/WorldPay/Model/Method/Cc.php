@@ -23,6 +23,14 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
     /**
      * {@inheritdoc}
      */
+    public function capture(Varien_Object $payment, $amount)
+    {
+        $this->authorize($payment, $amount);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
     public function authorize(Varien_Object $payment, $amount)
     {
         $order = $payment->getOrder();
@@ -51,13 +59,5 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
         if (!$response->isSuccess()) {
             Mage::throwException('Gateway Error: ' . $response->getMessage());
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function capture(Varien_Object $payment, $amount)
-    {
-        $this->authorize($payment, $amount);
     }
 }
