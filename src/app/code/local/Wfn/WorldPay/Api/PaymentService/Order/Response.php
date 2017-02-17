@@ -54,6 +54,8 @@ class Wfn_WorldPay_Api_PaymentService_Order_Response implements Wfn_WorldPay_Api
 
     /**
      * Parse raw response for success status and message.
+     *
+     * @return null
      */
     protected function processRawResponse()
     {

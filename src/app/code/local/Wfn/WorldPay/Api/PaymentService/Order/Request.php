@@ -37,6 +37,7 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
 
     /**
      * {@inheritdoc}
+     *
      * @return Wfn_WorldPay_Api_PaymentService_ResponseInterface
      * @throws Wfn_WorldPay_Api_Exception
      */
