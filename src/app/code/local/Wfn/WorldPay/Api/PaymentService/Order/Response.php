@@ -61,8 +61,13 @@ class Wfn_WorldPay_Api_PaymentService_Order_Response implements Wfn_WorldPay_Api
     {
         $xml = simplexml_load_string($this->rawResponse);
 
-        if (false === $xml) {
-            $this->message = 'No Response';
+        $lastEvent = isset($xml->reply->orderStatus->payment->lastEvent)
+            ? (string) $xml->reply->orderStatus->payment->lastEvent
+            : null;
+
+        if ($lastEvent) {
+            $this->message = $lastEvent;
+            $this->isSuccess = (0 == strcasecmp($lastEvent, 'AUTHORISED'));
             return;
         }
 
@@ -72,15 +77,10 @@ class Wfn_WorldPay_Api_PaymentService_Order_Response implements Wfn_WorldPay_Api
         }
 
         if (isset($xml->reply->error)) {
-            $this->message = 'Code ' . (string) $xml->reply->error['code'];
+            $this->message = 'Error code ' . (string) $xml->reply->error['code'];
             return;
         }
 
-        $lastEvent = isset($xml->reply->orderStatus->payment->lastEvent)
-            ? (string) $xml->reply->orderStatus->payment->lastEvent
-            : null;
-
-        $this->message = $lastEvent;
-        $this->isSuccess = ('AUTHORISED' == $lastEvent);
+        $this->message = 'No Response';
     }
 }
