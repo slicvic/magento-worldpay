@@ -71,13 +71,13 @@ class Wfn_WorldPay_Api_PaymentService_Order_Response implements Wfn_WorldPay_Api
             return;
         }
 
-        if (isset($xml->head->title)) {
-            $this->message = (string) $xml->head->title;
+        if (isset($xml->reply->error)) {
+            $this->message = 'Error code ' . (string) $xml->reply->error['code'];
             return;
         }
 
-        if (isset($xml->reply->error)) {
-            $this->message = 'Error code ' . (string) $xml->reply->error['code'];
+        if (isset($xml->head->title)) {
+            $this->message = (string) $xml->head->title;
             return;
         }
     }
