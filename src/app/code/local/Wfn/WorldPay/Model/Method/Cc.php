@@ -27,6 +27,7 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
     {
         $order = $payment->getOrder();
         $billingAddress = $order->getBillingAddress();
+
         $request = new Wfn_WorldPay_Api_PaymentService_Order_Request(
             $this->getConfigData('api_url'),
             $this->getConfigData('api_merchant_code'),
@@ -53,8 +54,6 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
         if (!$response->isSuccess()) {
             Mage::throwException('Gateway Error: ' . $response->getMessage());
         }
-
-        $payment->setIsTransactionClosed(1);
     }
 
     /**
