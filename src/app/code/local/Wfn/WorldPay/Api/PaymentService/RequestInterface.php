@@ -9,7 +9,7 @@ interface Wfn_WorldPay_Api_PaymentService_RequestInterface
      *
      * @return string
      */
-    public function toXmlString();
+    public function asXml();
 
     /**
      * Send HTTP request.

@@ -5,7 +5,7 @@
 class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_PaymentService_AbstractRequest
 {
     /**
-     * Valid credit card types.
+     * Accepted credit card types.
      *
      * @var array
      */
@@ -25,7 +25,7 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
     protected $description;
     protected $amount;
     protected $amountExponent = 2;
-    protected $currencyCode = 'US';
+    protected $currencyCode = 'USD';
     protected $cardType;
     protected $cardNumber;
     protected $cardExpiryMonth;
@@ -37,21 +37,22 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
 
     /**
      * {@inheritdoc}
-     *
-     * @throws Wfn_ConcardisPay_Api_Exception
+     * @return Wfn_WorldPay_Api_PaymentService_ResponseInterface
+     * @throws Wfn_WorldPay_Api_Exception
      */
     public function send()
     {
         if (!isset(static::$cardTypes[$this->cardType])) {
-            throw new Wfn_WorldPay_Api_Exception("Error: Invalid credit card type {$this->cardType}");
+            throw new Wfn_WorldPay_Api_Exception('Error: Invalid Credit Card Type ' . $this->cardType);
         }
-        return parent::send();
+        $result = parent::send();
+        return (new Wfn_WorldPay_Api_PaymentService_Order_Response($result));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function toXmlString()
+    public function asXml()
     {
         $cardTypes = static::$cardTypes;
 
@@ -64,7 +65,7 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
         <order orderCode="{$this->orderCode}">
             <description><![CDATA[{$this->description}]]></description>
             <amount value="{$this->amount}" currencyCode="{$this->currencyCode}" exponent="{$this->amountExponent}"/>
-            <paymentDetails action="AUTHORISE">
+            <paymentDetails>
                 <{$cardTypes[$this->cardType]}>
                     <cardNumber><![CDATA[{$this->cardNumber}]]></cardNumber>
                     <expiryDate>

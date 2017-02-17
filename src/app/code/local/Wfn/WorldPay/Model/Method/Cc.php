@@ -18,7 +18,7 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
     /**
      * {@inheritdoc}
      */
-    protected $_canCapture = false;
+    protected $_canCapture = true;
 
     /**
      * {@inheritdoc}
@@ -27,10 +27,6 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
     {
         $order = $payment->getOrder();
         $billingAddress = $order->getBillingAddress();
-        $orderDescription = [];
-        foreach ($order->getAllVisibleItems() as $item) {
-            $orderDescription[] = $item->getQtyOrdered() . ' ' . $item->getName();
-        }
         $request = new Wfn_WorldPay_Api_PaymentService_Order_Request(
             $this->getConfigData('api_url'),
             $this->getConfigData('api_merchant_code'),
@@ -38,9 +34,9 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
         );
 
         $response = $request
-            ->setOrderCode($order->getIncrementId().time())
-            ->setDescription(implode(',', $orderDescription))
-            ->setAmount(1)
+            ->setOrderCode($order->getIncrementId())
+            ->setDescription('Order # ' . $order->getIncrementId())
+            ->setAmount($amount)
             ->setCardType($payment->getCcType())
             ->setCardNumber($payment->getCcNumber())
             ->setCardExpiryMonth($payment->getCcExpMonth())
@@ -50,24 +46,15 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
             ->setSessionId(Mage::getSingleton('core/session')->getEncryptedSessionId())
             ->setShopperIpAddress((isset($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : '')
             ->send();
-       print_r($response);
-        echo $request->toXmlString();
 
-        if (false === $response) {
-            Mage::throwException('Error: cURL returned false');
+        //Mage::log($request->asXml() . "\n\n", null, $this->_code . '.log');
+        //Mage::log(var_export($response, true) . "\n\n", null, $this->_code . '.log');
+
+        if (!$response->isSuccess()) {
+            Mage::throwException('Gateway Error: ' . $response->getMessage());
         }
 
-        if ($response->head->title) {
-            Mage::throwException('Error: ' . (string) $response->head->title);
-        }
-
-        if ($response->reply->error) {
-            Mage::throwException('Error: Error code ' . (string) $response->reply->error['code']);
-        }
-
-
-//print_r($response->head->title);
-        Mage::throwException('xxx');
+        $payment->setIsTransactionClosed(1);
     }
 
     /**

@@ -40,15 +40,11 @@ abstract class Wfn_WorldPay_Api_PaymentService_AbstractRequest implements Wfn_Wo
     {
         $ch = curl_init($this->url);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->toXmlString());
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->asXml());
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_NOPROGRESS, 0);
         $result = curl_exec($ch);
         curl_close($ch);
-        if (false === $result) {
-            return false;
-        }
-        $result = simplexml_load_string($result);
         return $result;
     }
 }
