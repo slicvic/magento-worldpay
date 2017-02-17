@@ -14,7 +14,7 @@ interface Wfn_WorldPay_Api_PaymentService_RequestInterface
     /**
      * Send HTTP request.
      *
-     * @return false|SimpleXMLElement
+     * @return false|string
      */
     public function send();
 }

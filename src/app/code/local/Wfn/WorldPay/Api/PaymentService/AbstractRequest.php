@@ -28,7 +28,7 @@ abstract class Wfn_WorldPay_Api_PaymentService_AbstractRequest implements Wfn_Wo
      */
     public function __construct($url, $merchantCode, $password)
     {
-        $this->url = str_replace('https://', "https://{$merchantCode}:{$password}@", $url);
+        $this->url = str_replace('://', "://{$merchantCode}:{$password}@", $url);
         $this->merchantCode = $merchantCode;
         $this->password = $password;
     }
