@@ -67,7 +67,7 @@ class Wfn_WorldPay_Api_PaymentService_Order_Response implements Wfn_WorldPay_Api
 
         if ($lastEvent) {
             $this->message = $lastEvent;
-            $this->isSuccess = (0 == strcasecmp($lastEvent, 'AUTHORISED'));
+            $this->isSuccess = ('AUTHORISED' == strtoupper($lastEvent));
             return;
         }
 
