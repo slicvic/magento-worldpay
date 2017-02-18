@@ -27,7 +27,7 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
     {
         $this->authorize($payment, $amount);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -53,7 +53,7 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
             ->setCardCvc($payment->getCcCid())
             ->setCardHolderName($billingAddress->getFirstname() . ' ' . $billingAddress->getLastname())
             ->setSessionId(Mage::getSingleton('core/session')->getEncryptedSessionId())
-            ->setShopperIpAddress((isset($_SERVER['REMOTE_ADDR'])) ? $_SERVER['REMOTE_ADDR'] : '')
+            ->setShopperIpAddress($order->getRemoteIp())
             ->send();
 
         if (!$response->isSuccess()) {
