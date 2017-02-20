@@ -5,7 +5,7 @@
 class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_PaymentService_AbstractRequest
 {
     /**
-     * Accepted credit card types.
+     * Valid credit card types.
      *
      * @var array
      */
@@ -39,13 +39,9 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
      * {@inheritdoc}
      *
      * @return Wfn_WorldPay_Api_PaymentService_ResponseInterface
-     * @throws Wfn_WorldPay_Api_Exception
      */
     public function send()
     {
-        if (!isset(static::$cardTypes[$this->cardType])) {
-            throw new Wfn_WorldPay_Api_Exception('Invalid Credit Card Type ' . $this->cardType);
-        }
         $result = parent::send();
         return (new Wfn_WorldPay_Api_PaymentService_Order_Response($result));
     }
@@ -55,7 +51,7 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
      */
     public function asXml()
     {
-        $cardTypes = static::$cardTypes;
+        $cardType = (isset(static::$cardTypes[$this->cardType])) ? static::$cardTypes[$this->cardType] : '';
 
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
@@ -67,14 +63,14 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
             <description><![CDATA[{$this->description}]]></description>
             <amount value="{$this->amount}" currencyCode="{$this->currencyCode}" exponent="{$this->amountExponent}"/>
             <paymentDetails>
-                <{$cardTypes[$this->cardType]}>
+                <{$cardType}>
                     <cardNumber><![CDATA[{$this->cardNumber}]]></cardNumber>
                     <expiryDate>
                         <date month="{$this->cardExpiryMonth}" year="{$this->cardExpiryYear}"/>
                     </expiryDate>
                     <cardHolderName><![CDATA[{$this->cardHolderName}]]></cardHolderName>
                     <cvc><![CDATA[{$this->cardCvc}]]></cvc>
-                </{$cardTypes[$this->cardType]}>
+                </{$cardType}>
                 <session shopperIPAddress="{$this->shopperIpAddress}" id="{$this->sessionId}"/>
             </paymentDetails>
         </order>

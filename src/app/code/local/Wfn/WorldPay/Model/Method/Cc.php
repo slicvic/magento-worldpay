@@ -57,7 +57,10 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
             ->send();
 
         if (!$response->isSuccess()) {
-            Mage::throwException('Gateway Error: ' . $response->getMessage());
+            Mage::throwException(sprintf(
+                'Sorry, there was an error processing your payment. Please try again or contact us. (Error: %s)',
+                $response->getMessage()
+            ));
         }
     }
 }
