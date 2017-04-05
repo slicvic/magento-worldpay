@@ -3,12 +3,12 @@
  * Payment method that inherits from CC, to reuse form block and
  * info block.
  */
-class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
+class Slicvic_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
 {
     /**
      * {@inheritdoc}
      */
-    protected $_code = 'wfn_worldpay';
+    protected $_code = 'slicvic_worldpay';
 
     /**
      * {@inheritdoc}
@@ -36,7 +36,7 @@ class Wfn_WorldPay_Model_Method_Cc extends Mage_Payment_Model_Method_Cc
         $order = $payment->getOrder();
         $billingAddress = $order->getBillingAddress();
 
-        $request = new Wfn_WorldPay_Api_PaymentService_Order_Request(
+        $request = new Slicvic_WorldPay_Api_PaymentService_Order_Request(
             $this->getConfigData('api_url'),
             $this->getConfigData('api_merchant_code'),
             $this->getConfigData('api_password')

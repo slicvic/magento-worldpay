@@ -1,8 +1,8 @@
 <?php
 /**
- * Class Wfn_WorldPay_Api_PaymentService_Order_Request
+ * Class Slicvic_WorldPay_Api_PaymentService_Order_Request
  */
-class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_PaymentService_AbstractRequest
+class Slicvic_WorldPay_Api_PaymentService_Order_Request extends Slicvic_WorldPay_Api_PaymentService_AbstractRequest
 {
     /**
      * Valid credit card types.
@@ -38,12 +38,12 @@ class Wfn_WorldPay_Api_PaymentService_Order_Request extends Wfn_WorldPay_Api_Pay
     /**
      * {@inheritdoc}
      *
-     * @return Wfn_WorldPay_Api_PaymentService_ResponseInterface
+     * @return Slicvic_WorldPay_Api_PaymentService_ResponseInterface
      */
     public function send()
     {
         $result = parent::send();
-        return (new Wfn_WorldPay_Api_PaymentService_Order_Response($result));
+        return (new Slicvic_WorldPay_Api_PaymentService_Order_Response($result));
     }
 
     /**

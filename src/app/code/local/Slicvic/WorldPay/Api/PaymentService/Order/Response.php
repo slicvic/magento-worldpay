@@ -1,8 +1,8 @@
 <?php
 /**
- * Class Wfn_WorldPay_Api_PaymentService_Order_Response
+ * Class Slicvic_WorldPay_Api_PaymentService_Order_Response
  */
-class Wfn_WorldPay_Api_PaymentService_Order_Response implements Wfn_WorldPay_Api_PaymentService_ResponseInterface
+class Slicvic_WorldPay_Api_PaymentService_Order_Response implements Slicvic_WorldPay_Api_PaymentService_ResponseInterface
 {
     /**
      * Whether or not the order was successful.

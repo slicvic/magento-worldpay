@@ -3,7 +3,7 @@
     <sections>
         <payment>
             <groups>
-                <wfn_worldpay translate="label">
+                <slicvic_worldpay translate="label">
                     <label>WFN WorldPay</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>1000</sort_order>
@@ -108,7 +108,7 @@
                             <show_in_store>0</show_in_store>
                         </sort_order>
                     </fields>
-                </wfn_worldpay>
+                </slicvic_worldpay>
             </groups>
         </payment>
     </sections>

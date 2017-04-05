@@ -1,8 +1,8 @@
 <?php
 /**
- * Interface Wfn_WorldPay_Api_PaymentService_ResponseInterface
+ * Interface Slicvic_WorldPay_Api_PaymentService_ResponseInterface
  */
-interface Wfn_WorldPay_Api_PaymentService_ResponseInterface
+interface Slicvic_WorldPay_Api_PaymentService_ResponseInterface
 {
     /**
      * Whether or not the request was successful.

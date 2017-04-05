@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <Wfn_WorldPay>
+        <Slicvic_WorldPay>
             <active>true</active>
             <codePool>local</codePool>
             <depends>
                 <Mage_Payment />
             </depends>
-        </Wfn_WorldPay>
+        </Slicvic_WorldPay>
     </modules>
 </config>

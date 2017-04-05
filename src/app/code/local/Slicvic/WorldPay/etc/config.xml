@@ -1,27 +1,27 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <Wfn_WorldPay>
+        <Slicvic_WorldPay>
             <version>1.0.0.0</version>
-        </Wfn_WorldPay>
+        </Slicvic_WorldPay>
     </modules>
     <global>
         <helpers>
-            <wfnworldpay>
-                <class>Wfn_WorldPay_Helper</class>
-            </wfnworldpay>
+            <slicvicworldpay>
+                <class>Slicvic_WorldPay_Helper</class>
+            </slicvicworldpay>
         </helpers>
         <models>
-            <wfnworldpay>
-                <class>Wfn_WorldPay_Model</class>
-            </wfnworldpay>
+            <slicvicworldpay>
+                <class>Slicvic_WorldPay_Model</class>
+            </slicvicworldpay>
         </models>
     </global>
     <default>
         <payment>
-            <wfn_worldpay>
+            <slicvic_worldpay>
                 <active>1</active>
-                <model>wfnworldpay/method_cc</model>
+                <model>slicvicworldpay/method_cc</model>
                 <payment_action>authorize</payment_action>
                 <cctypes>AE,VI,MC,DI</cctypes>
                 <order_status>processing</order_status>
@@ -32,7 +32,7 @@
                 <api_url></api_url>
                 <api_merchant_code></api_merchant_code>
                 <api_password></api_password>
-            </wfn_worldpay>
+            </slicvic_worldpay>
         </payment>
     </default>
 </config>

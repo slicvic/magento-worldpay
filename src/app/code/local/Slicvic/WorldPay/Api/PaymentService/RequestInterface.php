@@ -1,8 +1,8 @@
 <?php
 /**
- * Interface Wfn_WorldPay_Api_PaymentService_RequestInterface
+ * Interface Slicvic_WorldPay_Api_PaymentService_RequestInterface
  */
-interface Wfn_WorldPay_Api_PaymentService_RequestInterface
+interface Slicvic_WorldPay_Api_PaymentService_RequestInterface
 {
     /**
      * Convert request to XML string.

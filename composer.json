@@ -1,5 +1,5 @@
 {
-    "name": "wfn/magento-module-worldpay",
+    "name": "slicvic/magento-module-worldpay",
     "description": "A credit card payment method that integrates with WorldPay payment gateway",
     "type": "magento-module",
     "require": {
@@ -7,8 +7,8 @@
     },
     "extra":{
         "map":[
-            ["src/app/etc/modules/Wfn_WorldPay.xml", "app/etc/modules/Wfn_WorldPay.xml"],
-            ["src/app/code/local/Wfn/WorldPay/", "app/code/local/Wfn/WorldPay"]
+            ["src/app/etc/modules/Slicvic_WorldPay.xml", "app/etc/modules/Slicvic_WorldPay.xml"],
+            ["src/app/code/local/Slicvic/WorldPay/", "app/code/local/Slicvic/WorldPay"]
         ]
     }
 }

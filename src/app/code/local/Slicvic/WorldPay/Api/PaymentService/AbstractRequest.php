@@ -1,8 +1,8 @@
 <?php
 /**
- * Class Wfn_WorldPay_Api_PaymentService_AbstractRequest
+ * Class Slicvic_WorldPay_Api_PaymentService_AbstractRequest
  */
-abstract class Wfn_WorldPay_Api_PaymentService_AbstractRequest implements Wfn_WorldPay_Api_PaymentService_RequestInterface
+abstract class Slicvic_WorldPay_Api_PaymentService_AbstractRequest implements Slicvic_WorldPay_Api_PaymentService_RequestInterface
 {
     /**
      * @var string
