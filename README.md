@@ -11,7 +11,7 @@ Make sure to set `magento-root-dir` to the directory where your Magento resides 
 {
     "require": {
         "magento-hackathon/magento-composer-installer": "*",
-        "wfn/magento-module-worldpay": "master"
+        "slicvic/magento-worldpay": "master"
     },
     "repositories": [
         {
@@ -20,7 +20,7 @@ Make sure to set `magento-root-dir` to the directory where your Magento resides 
         },
         {
             "type": "vcs",
-            "url": "https://victorwfn@bitbucket.org/wfnnllp/worldpay.git"
+            "url": "https://github.com/slicvic/magento-worldpay.git"
         }
     ],
     "extra":{
