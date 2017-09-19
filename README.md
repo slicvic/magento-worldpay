@@ -1,4 +1,4 @@
-# WorldPay Magento Module
+# Magento WorldPay
 A credit card payment method that integrates with WorldPay payment gateway.
 
 ## Installation via Composer
