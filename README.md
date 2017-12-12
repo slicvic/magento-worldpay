@@ -29,3 +29,12 @@ Make sure to set `magento-root-dir` to the directory where your Magento resides 
     }
 }
 ```
+
+
+## Screenshots
+
+![Alt text](https://user-images.githubusercontent.com/4705073/33864262-e74a9818-deb9-11e7-9848-1d98e48da104.png)
+
+![Alt text](https://user-images.githubusercontent.com/4705073/33864261-e737f87a-deb9-11e7-8c1c-8b6f7118f4e1.png)
+
+![Alt text](https://user-images.githubusercontent.com/4705073/33864718-17c26654-debc-11e7-8866-b9b6c446a9d1.png)
